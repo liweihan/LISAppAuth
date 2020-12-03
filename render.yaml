@@ -1,0 +1,46 @@
+services:
+- type: web
+  name: LISApp_Keycloak
+  env: docker
+  autoDeploy: false
+  healthCheckPath: /healthz
+  dockerfilePath: ./keycloak/Dockerfile
+  dockerContext: ./keycloak
+  envVars:
+  - key: PORT
+    value: 8080
+
+  - key: KEYCLOAK_USER
+    value: admin
+
+  - key: KEYCLOAK_PASSWORD
+    value: admin
+
+  - key: DB_VENDOR
+    value: postgres
+
+  - key: DB_ADDR
+    value: postgres
+
+  - key: DB_USER
+    fromDatabase:
+      name: keycloak
+      property: user
+
+  - key: DB_PASSWORD
+    fromDatabase:
+      name: keycloak
+      property: password
+
+
+- type: web
+  name: LISApp_Auth_Connector
+  env: docker
+  autoDeploy: false
+  healthCheckPath: /healthz
+  dockerfilePath: ./connector/Dockerfile
+  dockerContext: ./connector
+
+
+databases:
+- name: keycloak
