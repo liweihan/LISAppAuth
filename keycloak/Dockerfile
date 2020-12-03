@@ -1,1 +1,1 @@
-FROM jboss/keycloak:latest
+FROM quay.io/keycloak/keycloak:latest
